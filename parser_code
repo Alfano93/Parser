@@ -1,0 +1,73 @@
+#include <iostream>
+#include <stack> 
+#include <string>
+#include <vector>
+
+using namespace std;
+
+int main(){
+
+	stack<string> function_names;
+	stack<string> parameters;
+	
+	int number_of_opens = 0;
+	int number_of_closes = 0;
+	
+	string command = "(<- cats_or_dogs dogs)";
+	(<- cats_or_dogs dogs)
+	char c;
+	
+	string function;
+	string parameter;
+	
+	
+	for(string::iterator it = command.begin(); it != command.end();it++){
+		if( *it == '('){
+			number_of_opens++;
+			it++;
+			while(!isspace(*it)){
+				c = *it;
+				function += c;
+				it++;
+			}
+			function_names.push(function);
+			function.clear();			
+		}
+		
+		else if (!isspace(*it)){
+			while(!isspace(*it) && *it != ')'){
+				c = *it;	
+				parameter += c;
+				it++;
+				
+			}
+			
+			parameters.push(parameter);
+			parameter.clear();
+			
+			if(*it == ')'){
+				number_of_closes++;
+			}
+		}
+	}
+	
+	if( number_of_opens != number_of_closes){
+		cerr<< "error: number of opens does not equal number of closes" << endl;
+	}
+	
+	else{
+		while(!(function_names.empty())){
+		cout<<"Function: " << function_names.top()<<endl;
+		function_names.pop();
+		}
+		
+		cout<<"Parameters: ";
+		
+		while(!(parameters.empty())){
+			cout<<parameters.top()<<",";
+			parameters.pop();
+		}
+		
+		cout<<endl;
+	}
+}
